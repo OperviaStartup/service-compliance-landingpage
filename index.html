@@ -240,14 +240,17 @@
 <!-- BEGIN: MainHeader -->
 <header aria-label="Encabezado principal" class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-brand-borderBlue/60 transition-all duration-300" id="mainHeader">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-<!-- Logo & Product Label -->
+<!-- Brand logo -->
 <a class="flex items-center gap-3.5 group" href="#">
-<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white shadow-md shadow-brand-navy/15 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-brand-blue/30 transition-all duration-300">
+<span class="inline-flex items-center rounded-xl bg-brand-navy px-3 py-2 shadow-md shadow-brand-navy/15 group-hover:scale-[1.02] group-hover:shadow-lg group-hover:shadow-brand-blue/30 transition-all duration-300">
+<img alt="Opervia" class="h-8 w-auto object-contain" src="assets/opervia-logo.png"/>
+</span>
+<div class="hidden w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white shadow-md shadow-brand-navy/15 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-brand-blue/30 transition-all duration-300">
 <svg class="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-6" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
 <path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" stroke-linecap="round" stroke-linejoin="round"></path>
 </svg>
 </div>
-<div class="flex flex-col">
+<div class="hidden flex flex-col">
 <span class="text-2xl font-extrabold tracking-tight text-brand-navy leading-none group-hover:text-brand-blue transition-colors duration-200">Opervia</span>
 <span class="text-[9px] font-bold tracking-widest text-brand-teal uppercase mt-1 leading-none">Service Compliance</span>
 </div>
@@ -494,32 +497,32 @@
 <!-- Disconnected items grid with subtle hover error-jitter -->
 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1 transition-transform group-hover:scale-110">💬</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2 transition-transform group-hover:scale-110">WA</div>
 <div class="text-xs font-bold text-slate-700">Chats WhatsApp</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Mensajes perdidos</div>
 </div>
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1">📑</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2">DOC</div>
 <div class="text-xs font-bold text-slate-700">Papel físico</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Ilegible o extraviado</div>
 </div>
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1">📊</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2">XLS</div>
 <div class="text-xs font-bold text-slate-700">Hojas Excel</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Desactualizadas</div>
 </div>
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1">📸</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2">IMG</div>
 <div class="text-xs font-bold text-slate-700">Fotos sin hora</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Sin trazabilidad</div>
 </div>
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1">📞</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2">TEL</div>
 <div class="text-xs font-bold text-slate-700">Llamadas</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Sin registro formal</div>
 </div>
 <div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
-<div class="text-xl mb-1">⏳</div>
+<div class="text-xs font-extrabold text-brand-blue mb-2">SLA</div>
 <div class="text-xs font-bold text-slate-700">Reportes tarde</div>
 <div class="text-[10px] text-slate-400 mt-0.5">Reclamos del cliente</div>
 </div>
@@ -793,7 +796,7 @@
 <div class="tilt-card bg-white rounded-3xl p-6 sm:p-8 border border-brand-borderBlue hover:border-brand-blue/40 shadow-opervia-card hover:shadow-2xl flex flex-col justify-between transition-all duration-300 reveal-on-scroll">
 <div>
 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand-blue text-xs font-bold mb-4 border border-blue-100">
-<span>🖥️</span> Para supervisores
+<span class="text-[10px] font-extrabold">WEB</span> Para supervisores
               </div>
 <h3 class="text-2xl font-bold text-brand-navy mb-3">Control total sin intermediarios</h3>
 <p class="text-slate-600 text-sm leading-relaxed mb-6">
@@ -851,7 +854,7 @@
 <div class="tilt-card bg-white rounded-3xl p-6 sm:p-8 border border-brand-borderBlue hover:border-brand-teal/40 shadow-opervia-card hover:shadow-2xl flex flex-col justify-between transition-all duration-300 reveal-on-scroll">
 <div>
 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-brand-teal text-xs font-bold mb-4 border border-teal-100">
-<span>📱</span> Para operarios en campo
+<span class="text-[10px] font-extrabold">APP</span> Para operarios en campo
               </div>
 <h3 class="text-2xl font-bold text-brand-navy mb-3">Claridad absoluta en el trabajo diario</h3>
 <p class="text-slate-600 text-sm leading-relaxed mb-6">
@@ -1013,7 +1016,7 @@
 <!-- Benefit 1 -->
 <div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-brand-blue/50 shadow-sm hover:shadow-opervia transition-all group cursor-default">
 <div class="card-icon w-12 h-12 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
-              📁
+              PLAN
             </div>
 <h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-blue transition-colors">Información centralizada</h3>
 <p class="text-sm text-slate-600 leading-relaxed">
@@ -1023,7 +1026,7 @@
 <!-- Benefit 2 -->
 <div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-brand-teal/50 shadow-sm hover:shadow-opervia transition-all group cursor-default" style="transition-delay: 0.1s;">
 <div class="card-icon w-12 h-12 rounded-2xl bg-teal-50 text-brand-teal flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-brand-teal group-hover:text-white transition-all duration-300">
-              🔗
+              LINK
             </div>
 <h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-teal transition-colors">Trazabilidad de principio a fin</h3>
 <p class="text-sm text-slate-600 leading-relaxed">
@@ -1033,7 +1036,7 @@
 <!-- Benefit 3 -->
 <div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-indigo-400 shadow-sm hover:shadow-opervia transition-all group cursor-default" style="transition-delay: 0.2s;">
 <div class="card-icon w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-              ⚡
+              LIVE
             </div>
 <h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-indigo-600 transition-colors">Supervisión más eficiente</h3>
 <p class="text-sm text-slate-600 leading-relaxed">
@@ -1198,12 +1201,15 @@
 <!-- Brand column -->
 <div class="md:col-span-2 space-y-4">
 <a class="inline-flex items-center gap-3 group" href="#">
-<div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white font-bold text-xs shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all">
+<span class="inline-flex items-center rounded-xl bg-brand-navy px-3 py-2 shadow-sm group-hover:scale-[1.02] group-hover:shadow-md transition-all">
+<img alt="Opervia" class="h-7 w-auto object-contain" src="assets/opervia-logo.png"/>
+</span>
+<div class="hidden w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white font-bold text-xs shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all">
               O
             </div>
 <div class="flex flex-col">
-<span class="text-xl font-extrabold tracking-tight text-brand-navy leading-none group-hover:text-brand-blue transition-colors">Opervia</span>
-<span class="text-[8px] font-bold tracking-widest text-brand-teal uppercase mt-0.5 leading-none">SERVICE COMPLIANCE</span>
+<span class="hidden text-xl font-extrabold tracking-tight text-brand-navy leading-none group-hover:text-brand-blue transition-colors">Opervia</span>
+<span class="hidden text-[8px] font-bold tracking-widest text-brand-teal uppercase mt-0.5 leading-none">SERVICE COMPLIANCE</span>
 </div>
 </a>
 <p class="text-xs text-slate-500 leading-relaxed max-w-sm">

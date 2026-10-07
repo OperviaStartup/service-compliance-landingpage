@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Opervia | Service Compliance — Gestión Inteligente de Servicios Tercerizados</title>
+<meta content="Opervia centraliza la planificación, ejecución, evidencia y seguimiento de servicios tercerizados en una sola plataforma." name="description"/>
+<!-- External dependencies -->
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              navy: '#06164A',
+              dark: '#0B1B3D',
+              blue: '#0D7BF2',
+              blueHover: '#0B68CE',
+              teal: '#0B827C',
+              tealLight: '#E6F6F5',
+              softBlue: '#F4F8FC',
+              borderBlue: '#D8E7F8'
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif']
+          },
+          boxShadow: {
+            'opervia': '0 12px 36px -4px rgba(6, 22, 74, 0.08), 0 4px 12px -2px rgba(6, 22, 74, 0.04)',
+            'opervia-card': '0 8px 30px rgba(6, 22, 74, 0.06)',
+            'floating': '0 20px 40px -6px rgba(13, 123, 242, 0.16)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom base styles and micro-interactions -->
+<style data-purpose="custom-styling">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FFFFFF;
+      color: #0F172A;
+      overflow-x: hidden;
+    }
+
+    /* Subtle geometric faceted mesh background */
+    .bg-opervia-faceted {
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(216, 235, 255, 0.6) 0%, transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(225, 245, 254, 0.7) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(240, 248, 255, 0.5) 0%, transparent 60%),
+        linear-gradient(180deg, #F5F9FD 0%, #FFFFFF 100%);
+    }
+
+    .geometric-poly {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+      filter: blur(40px);
+      animation: floatSlow 12s ease-in-out infinite alternate;
+    }
+    .geometric-poly-2 {
+      animation: floatSlow 15s ease-in-out infinite alternate-reverse;
+    }
+
+    @keyframes floatSlow {
+      0% { transform: translateY(0px) scale(1); }
+      100% { transform: translateY(-24px) scale(1.08); }
+    }
+
+    /* Floating mockups physics */
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-7px); }
+    }
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0px) rotate(1deg); }
+      50% { transform: translateY(-12px) rotate(-0.5deg); }
+    }
+    .animate-hero-float {
+      animation: heroFloat 7s ease-in-out infinite;
+    }
+    .animate-phone-float {
+      animation: phoneFloat 6s ease-in-out infinite;
+    }
+
+    /* Shimmer Button Effect */
+    .btn-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-shimmer::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.35) 50%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      transform: rotate(25deg);
+      transition: none;
+    }
+    .btn-shimmer:hover::after {
+      left: 140%;
+      transition: left 0.85s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Glow waves on CTA */
+    @keyframes ctaWave {
+      0% { transform: rotate(0deg) scale(1); opacity: 0.25; }
+      50% { transform: rotate(180deg) scale(1.2); opacity: 0.45; }
+      100% { transform: rotate(360deg) scale(1); opacity: 0.25; }
+    }
+    .animate-cta-wave {
+      animation: ctaWave 22s linear infinite;
+    }
+
+    /* Scroll reveal system */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Interactive cards tilt & icon micro bounce */
+    .tilt-card {
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    }
+    .tilt-card:hover {
+      transform: translateY(-6px);
+    }
+    .tilt-card:hover .card-icon {
+      transform: scale(1.14) rotate(4deg);
+    }
+    .card-icon {
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    /* Fragmented card error jitter on hover */
+    @keyframes errorWiggle {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-3px) rotate(-1deg); }
+      40% { transform: translateX(3px) rotate(1deg); }
+      60% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
+    }
+    .frag-card {
+      transition: all 0.2s ease;
+    }
+    .frag-card:hover {
+      animation: errorWiggle 0.4s ease-in-out;
+      border-color: #fca5a5;
+      background-color: #fff8f8;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.08);
+    }
+
+    /* Traveling beam on flow connector */
+    @keyframes flowBeam {
+      0% { transform: translateY(-100%); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .flow-arrow-beam {
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-arrow-beam::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 100%;
+      background: linear-gradient(180deg, transparent, rgba(13, 123, 242, 0.6), transparent);
+      animation: flowBeam 2s infinite ease-in-out;
+    }
+
+    /* Timeline step hover pulse */
+    .timeline-item {
+      transition: all 0.25s ease;
+    }
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.35);
+      box-shadow: 0 0 0 6px rgba(13, 123, 242, 0.18);
+    }
+    .timeline-dot {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+    }
+
+    /* Pricing recommended glow pulse */
+    @keyframes borderGlow {
+      0%, 100% { box-shadow: 0 12px 36px -4px rgba(13, 123, 242, 0.18), 0 0 0 1px rgba(13, 123, 242, 0.25); }
+      50% { box-shadow: 0 18px 48px -4px rgba(13, 123, 242, 0.32), 0 0 0 3px rgba(13, 123, 242, 0.4); }
+    }
+    .pulse-glow-card {
+      animation: borderGlow 4s ease-in-out infinite;
+    }
+
+    /* Ripple feedback simulation */
+    .ripple-btn {
+      position: relative;
+      overflow: hidden;
+    }
+    .ripple-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Respect prefers-reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, ::before, ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-brand-blue selection:text-white">
+<!-- Site header and primary navigation -->
+<!-- BEGIN: MainHeader -->
+<header aria-label="Encabezado principal" class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-brand-borderBlue/60 transition-all duration-300" id="mainHeader">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Logo & Product Label -->
+<a class="flex items-center gap-3.5 group" href="#">
+<div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white shadow-md shadow-brand-navy/15 group-hover:scale-105 group-hover:shadow-lg group-hover:shadow-brand-blue/30 transition-all duration-300">
+<svg class="w-5 h-5 text-white transition-transform duration-300 group-hover:rotate-6" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24">
+<path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="text-2xl font-extrabold tracking-tight text-brand-navy leading-none group-hover:text-brand-blue transition-colors duration-200">Opervia</span>
+<span class="text-[9px] font-bold tracking-widest text-brand-teal uppercase mt-1 leading-none">Service Compliance</span>
+</div>
+</a>
+<!-- Desktop Navigation Menu -->
+<nav aria-label="Navegación principal" class="hidden md:flex items-center gap-1.5 lg:gap-2">
+<a class="relative px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-brand-blue hover:bg-brand-softBlue/80 transition-all duration-200 group" href="#producto">
+  Producto
+  <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-brand-blue rounded-full group-hover:w-4 transition-all duration-300"></span>
+</a>
+<a class="relative px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-brand-blue hover:bg-brand-softBlue/80 transition-all duration-200 group" href="#como-funciona">
+  Cómo funciona
+  <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-brand-blue rounded-full group-hover:w-4 transition-all duration-300"></span>
+</a>
+<a class="relative px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-brand-blue hover:bg-brand-softBlue/80 transition-all duration-200 group" href="#beneficios">
+  Beneficios
+  <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-brand-blue rounded-full group-hover:w-4 transition-all duration-300"></span>
+</a>
+<a class="relative px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-brand-blue hover:bg-brand-softBlue/80 transition-all duration-200 group" href="#precios">
+  Precios
+  <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-brand-blue rounded-full group-hover:w-4 transition-all duration-300"></span>
+</a>
+<a class="relative px-3.5 py-1.5 rounded-full text-sm font-medium text-slate-600 hover:text-brand-blue hover:bg-brand-softBlue/80 transition-all duration-200 group" href="#nosotros">
+  Nosotros
+  <span class="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-brand-blue rounded-full group-hover:w-4 transition-all duration-300"></span>
+</a>
+</nav>
+<!-- Language selector and action buttons -->
+<button aria-label="Cambiar idioma" class="inline-flex items-center justify-center px-3 py-2 text-xs font-bold text-brand-navy hover:text-brand-blue border border-brand-borderBlue hover:border-brand-blue/50 hover:bg-brand-softBlue/60 rounded-xl transition-all duration-200" id="languageToggle" type="button">
+  EN
+</button>
+<div class="flex items-center gap-3">
+<a class="hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold text-brand-navy hover:text-brand-blue border border-brand-borderBlue hover:border-brand-blue/50 hover:bg-brand-softBlue/60 rounded-xl transition-all duration-200 active:scale-95 shadow-sm hover:shadow" href="#" id="loginLink">
+          Iniciar sesión
+        </a>
+<a class="btn-shimmer inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold text-white bg-brand-blue hover:bg-brand-blueHover rounded-full shadow-md shadow-brand-blue/25 hover:shadow-xl hover:shadow-brand-blue/35 hover:-translate-y-0.5 transition-all duration-200 active:scale-95" href="#demo">
+<span>Solicitar demo</span>
+<svg class="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<main>
+<!-- BEGIN: HeroSection -->
+<section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden bg-opervia-faceted">
+<!-- Decorative ambient polygons with gentle floating animation -->
+<div class="geometric-poly -top-24 left-1/4 w-96 h-96 bg-blue-300/40 rounded-full"></div>
+<div class="geometric-poly geometric-poly-2 top-1/2 -right-20 w-80 h-80 bg-teal-200/40 rounded-full"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Left Column (Text & Value Prop) -->
+<div class="lg:col-span-6 flex flex-col items-start space-y-6 reveal-on-scroll">
+<!-- Category Badge -->
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 border border-brand-borderBlue shadow-sm text-xs font-semibold text-brand-navy hover:shadow-md hover:border-brand-blue/40 transition-all duration-300 cursor-default">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-blue opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-brand-blue"></span>
+</span>
+              Gestión inteligente de servicios tercerizados
+            </div>
+<!-- Main Title -->
+<h1 class="text-4xl sm:text-5xl lg:text-[3.25rem] font-extrabold text-brand-navy leading-[1.15] tracking-tight">
+              Convierte cada servicio en <span class="text-brand-blue relative inline-block transition-transform hover:scale-[1.02] duration-200">cumplimiento demostrable</span>.
+            </h1>
+<!-- Supporting Paragraph -->
+<p class="text-lg text-slate-600 leading-relaxed max-w-xl">
+              Centraliza la planificación, ejecución, evidencia y seguimiento de tus servicios de limpieza y mantenimiento en una sola plataforma unificada.
+            </p>
+<!-- CTA Button Group -->
+<div class="w-full sm:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+<a class="btn-shimmer inline-flex justify-center items-center gap-2.5 px-7 py-3.5 text-base font-semibold text-white bg-brand-blue hover:bg-brand-blueHover rounded-xl shadow-lg shadow-brand-blue/25 hover:shadow-2xl hover:shadow-brand-blue/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200" href="#demo">
+<span>Solicitar una demo</span>
+<svg class="w-4 h-4 transition-transform duration-200 hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24">
+<path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+<a class="inline-flex justify-center items-center gap-2 px-6 py-3.5 text-base font-semibold text-slate-700 hover:text-brand-navy bg-white hover:bg-slate-50 border border-slate-200 hover:border-brand-blue/40 shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 group" href="#como-funciona">
+<svg class="w-5 h-5 text-brand-teal group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span>Conocer Service Compliance</span>
+</a>
+</div>
+<!-- Trust Note -->
+<div class="pt-4 flex items-center gap-2.5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0 animate-pulse" fill="currentColor" viewbox="0 0 20 20">
+<path clip-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path>
+</svg>
+<span>Menos información dispersa. Más control sobre cada servicio.</span>
+</div>
+</div>
+<!-- Right Column (Software Preview Composition) -->
+<div class="lg:col-span-6 relative reveal-on-scroll">
+<div class="relative w-full max-w-xl mx-auto">
+<!-- Main Desktop UI Window Mockup (Floating animation) -->
+<div class="animate-hero-float bg-white rounded-2xl sm:rounded-3xl border border-brand-borderBlue/80 shadow-opervia hover:shadow-2xl transition-all duration-300">
+<!-- Window Titlebar -->
+<div class="bg-slate-50/90 px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-red-300/80 hover:bg-red-400 transition-colors cursor-pointer"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-amber-300/80 hover:bg-amber-400 transition-colors cursor-pointer"></span>
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-300/80 hover:bg-emerald-400 transition-colors cursor-pointer"></span>
+<span class="ml-2 text-xs font-semibold text-slate-500">Opervia Console — Turno Mañana</span>
+</div>
+<!-- Animated pulsing live dot indicator -->
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-50 border border-teal-200/60 shadow-sm cursor-default">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-teal opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-brand-teal"></span>
+</span>
+<span class="text-[10px] font-bold text-brand-teal uppercase tracking-wider">EN VIVO</span>
+</div>
+</div>
+<!-- Window Content -->
+<div class="p-5 sm:p-6 space-y-5">
+<!-- Compliance Rate Header -->
+<div class="group flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-brand-softBlue/60 hover:bg-brand-softBlue rounded-xl p-4 border border-brand-borderBlue/50 hover:border-brand-blue/30 transition-all duration-200">
+<div>
+<div class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Cumplimiento Global</div>
+<div class="text-3xl font-extrabold text-brand-navy group-hover:text-brand-blue transition-colors duration-200">96.4%</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="inline-flex items-center text-xs font-semibold px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 shadow-sm group-hover:scale-105 transition-transform duration-200">
+                        ✓ 128 / 132 Completadas
+                      </span>
+</div>
+</div>
+<!-- Mini KPI Metrics (Hover lift & highlight borders) -->
+<div class="grid grid-cols-3 gap-2.5 text-center">
+<div class="p-2.5 bg-slate-50 hover:bg-white rounded-xl border border-slate-100 hover:border-brand-blue/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-default">
+<div class="text-xs text-slate-500 font-medium">Obligaciones</div>
+<div class="text-lg font-bold text-brand-navy">142</div>
+</div>
+<div class="p-2.5 bg-slate-50 hover:bg-white rounded-xl border border-slate-100 hover:border-brand-teal/40 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-default">
+<div class="text-xs text-slate-500 font-medium">Evidencias</div>
+<div class="text-lg font-bold text-brand-teal">128 val.</div>
+</div>
+<div class="p-2.5 bg-amber-50/70 hover:bg-amber-50 rounded-xl border border-amber-200/60 hover:border-amber-300 hover:shadow-md hover:-translate-y-1 transition-all duration-200 cursor-default">
+<div class="text-xs text-amber-700 font-medium">Desviaciones</div>
+<div class="text-lg font-bold text-amber-800">2 activas</div>
+</div>
+</div>
+<!-- Table Preview Rows -->
+<div class="space-y-2">
+<div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Registro de Servicios Recientes</div>
+<!-- Row 1 -->
+<div class="p-3 bg-white hover:bg-brand-softBlue/40 rounded-xl border border-slate-100 hover:border-brand-blue/30 shadow-sm hover:shadow transition-all duration-200 flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-50 text-brand-blue flex items-center justify-center font-bold text-xs group-hover:scale-110 transition-transform">
+                          EC
+                        </div>
+<div>
+<div class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Edificio Central • Áreas Comunes</div>
+<div class="text-[11px] text-slate-500">Operario: M. Quispe • 09:15 AM</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-50 text-brand-teal border border-teal-200 group-hover:bg-teal-100 transition-colors">
+                        Validado ✓
+                      </span>
+</div>
+<!-- Row 2 -->
+<div class="p-3 bg-white hover:bg-brand-softBlue/40 rounded-xl border border-slate-100 hover:border-brand-blue/30 shadow-sm hover:shadow transition-all duration-200 flex items-center justify-between cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center font-bold text-xs group-hover:scale-110 transition-transform">
+                          TB
+                        </div>
+<div>
+<div class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Torre B • Desinfección Nivel 2</div>
+<div class="text-[11px] text-slate-500">Operario: C. Alva • 10:30 AM</div>
+</div>
+</div>
+<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-brand-blue border border-blue-200 group-hover:bg-blue-100 transition-colors">
+                        En Proceso
+                      </span>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Mobile Device Overlay (Operario App) -->
+<div class="animate-phone-float absolute -bottom-8 -right-4 sm:-right-8 w-60 sm:w-64 bg-white rounded-3xl p-3 shadow-floating border-2 border-brand-navy/10 hover:shadow-2xl transition-all duration-300 z-20">
+<!-- Mobile Mockup Inner Frame -->
+<div class="bg-brand-softBlue rounded-2xl p-3 border border-brand-borderBlue">
+<div class="flex items-center justify-between pb-2 border-b border-slate-200">
+<span class="text-[10px] font-extrabold text-brand-navy tracking-tight">Opervia Campo</span>
+<span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-600 bg-emerald-100 px-1.5 py-0.5 rounded">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> GPS OK
+</span>
+</div>
+<div class="mt-2 text-left">
+<span class="text-[9px] font-bold uppercase text-slate-400">Tarea en curso</span>
+<h4 class="text-xs font-bold text-brand-navy leading-tight mt-0.5">Piso 4 - Sector Norte</h4>
+<p class="text-[10px] text-slate-500 mt-0.5">Limpieza profunda y reposición</p>
+</div>
+<div class="mt-2.5 p-2 bg-white rounded-lg border border-slate-200 flex items-center gap-2 hover:border-brand-teal transition-colors">
+<svg class="w-4 h-4 text-brand-teal" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] font-bold text-slate-700">Evidencia fotográfica (2)</span>
+</div>
+<button class="ripple-btn mt-3 w-full py-2 bg-brand-blue hover:bg-brand-blueHover active:scale-95 text-white rounded-xl text-[11px] font-bold shadow-sm hover:shadow transition-all duration-150" type="button">
+                    Completar actividad →
+                  </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: ProblemSection -->
+<section class="py-20 lg:py-28 bg-white border-t border-slate-100" id="producto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Header -->
+<div class="max-w-3xl mx-auto text-center space-y-4 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-teal">Diagnóstico Operativo</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight">
+            Cuando la operación está dispersa, demostrar el cumplimiento se vuelve difícil.
+          </h2>
+<p class="text-base sm:text-lg text-slate-600">
+            Mensajes de chat, fotografías desordenadas, hojas de cálculo y formatos físicos pueden contener partes de la operación, pero no siempre cuentan la historia completa ni ofrecen respaldo auditable.
+          </p>
+</div>
+<!-- 2-Column Comparison Layout -->
+<div class="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+<!-- LEFT: Operación Fragmentada -->
+<div class="bg-[#FAFBFD] rounded-3xl p-6 sm:p-8 border border-red-100 relative shadow-sm hover:shadow-md transition-all duration-300 reveal-on-scroll">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2.5">
+<span class="w-3 h-3 rounded-full bg-red-400 animate-pulse"></span>
+<h3 class="text-lg font-bold text-slate-800">Operación fragmentada tradicional</h3>
+</div>
+<span class="text-xs font-semibold px-2.5 py-1 rounded bg-red-50 text-red-600 border border-red-200">
+                Puntos Ciegos
+              </span>
+</div>
+<p class="text-sm text-slate-500 mb-6">
+              Información desvinculada entre los operarios en campo y los informes que exige el cliente.
+            </p>
+<!-- Disconnected items grid with subtle hover error-jitter -->
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1 transition-transform group-hover:scale-110">💬</div>
+<div class="text-xs font-bold text-slate-700">Chats WhatsApp</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Mensajes perdidos</div>
+</div>
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1">📑</div>
+<div class="text-xs font-bold text-slate-700">Papel físico</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Ilegible o extraviado</div>
+</div>
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1">📊</div>
+<div class="text-xs font-bold text-slate-700">Hojas Excel</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Desactualizadas</div>
+</div>
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1">📸</div>
+<div class="text-xs font-bold text-slate-700">Fotos sin hora</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Sin trazabilidad</div>
+</div>
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1">📞</div>
+<div class="text-xs font-bold text-slate-700">Llamadas</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Sin registro formal</div>
+</div>
+<div class="frag-card p-3 bg-white rounded-xl border border-slate-200 text-center cursor-default">
+<div class="text-xl mb-1">⏳</div>
+<div class="text-xs font-bold text-slate-700">Reportes tarde</div>
+<div class="text-[10px] text-slate-400 mt-0.5">Reclamos del cliente</div>
+</div>
+</div>
+<div class="p-4 bg-red-50/60 rounded-xl border border-red-100 flex items-start gap-3 hover:bg-red-50 transition-colors">
+<svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div class="text-xs text-red-700">
+<strong class="font-bold">Resultado habitual:</strong> Horas perdidas intentando reconstruir qué se hizo, disputas con clientes sobre si el servicio realmente se ejecutó y multas por incumplimiento contractual.
+              </div>
+</div>
+</div>
+<!-- RIGHT: Con Service Compliance -->
+<div class="bg-gradient-to-br from-white to-brand-softBlue rounded-3xl p-6 sm:p-8 border-2 border-brand-blue/30 shadow-opervia hover:shadow-xl transition-all duration-300 relative reveal-on-scroll">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-2.5">
+<span class="w-3 h-3 rounded-full bg-brand-teal animate-pulse"></span>
+<h3 class="text-lg font-bold text-brand-navy">Con Service Compliance</h3>
+</div>
+<span class="text-xs font-semibold px-2.5 py-1 rounded bg-teal-50 text-brand-teal border border-teal-200">
+                100% Conectado
+              </span>
+</div>
+<p class="text-sm text-slate-600 mb-6">
+              Un único hilo conductor que transforma cada actividad de campo en un respaldo formal.
+            </p>
+<!-- Connected Chain Graphic with pulse/beam connectors -->
+<div class="space-y-3 mb-6">
+<div class="flex items-center justify-between p-3 bg-white hover:bg-brand-softBlue/60 rounded-xl border border-brand-borderBlue hover:border-brand-blue/40 shadow-sm hover:shadow transition-all duration-200 cursor-default group">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center text-xs font-bold group-hover:scale-110 transition-transform">1</span>
+<span class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Plan de servicio claro</span>
+</div>
+<span class="text-[11px] text-slate-400">Parámetros definidos</span>
+</div>
+<!-- Traveling beam connector 1 -->
+<div class="flex items-center justify-center -my-1">
+<div class="w-6 h-5 flex items-center justify-center rounded flow-arrow-beam">
+<svg class="w-4 h-4 text-brand-blue animate-bounce" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-white hover:bg-brand-softBlue/60 rounded-xl border border-brand-borderBlue hover:border-brand-blue/40 shadow-sm hover:shadow transition-all duration-200 cursor-default group">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-blue-100 text-brand-blue flex items-center justify-center text-xs font-bold group-hover:scale-110 transition-transform">2</span>
+<span class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Obligación asignada al operario</span>
+</div>
+<span class="text-[11px] text-slate-400">Directo en su móvil</span>
+</div>
+<!-- Traveling beam connector 2 -->
+<div class="flex items-center justify-center -my-1">
+<div class="w-6 h-5 flex items-center justify-center rounded flow-arrow-beam">
+<svg class="w-4 h-4 text-brand-blue animate-bounce" fill="none" stroke="currentColor" style="animation-delay: 0.15s" viewbox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7m7 7V3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-white hover:bg-teal-50/40 rounded-xl border border-brand-teal/40 bg-teal-50/20 shadow-sm hover:shadow transition-all duration-200 cursor-default group">
+<div class="flex items-center gap-3">
+<span class="w-6 h-6 rounded-full bg-teal-100 text-brand-teal flex items-center justify-center text-xs font-bold group-hover:scale-110 transition-transform">3</span>
+<span class="text-xs font-bold text-brand-teal">Ejecución con evidencia y geolocalización</span>
+</div>
+<span class="text-[11px] text-brand-teal font-semibold">Trazabilidad total</span>
+</div>
+</div>
+<div class="p-4 bg-teal-50/70 rounded-xl border border-teal-200/60 flex items-start gap-3 hover:bg-teal-50 transition-colors">
+<svg class="w-5 h-5 text-brand-teal flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<div class="text-xs text-brand-teal">
+<strong class="font-bold">Resultado con Opervia:</strong> Registro auditable e indiscutible frente a supervisores y clientes corporativos con cero esfuerzo de reconstrucción.
+              </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ProblemSection -->
+<!-- BEGIN: ValueProposition -->
+<section class="py-20 lg:py-24 bg-brand-softBlue/60 relative">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header -->
+<div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Propuesta de Valor</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight mt-2">
+            Todo el ciclo del servicio, conectado.
+          </h2>
+<p class="text-slate-600 mt-3 text-base">
+            Diseñado especialmente para la dinámica real de los servicios de limpieza y soporte de instalaciones.
+          </p>
+</div>
+<!-- 4-Card Grid with tilt, elevation and bouncing icons -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-2xl p-7 border border-brand-borderBlue hover:border-brand-blue/50 shadow-sm hover:shadow-opervia flex flex-col justify-between group cursor-default">
+<div>
+<div class="card-icon w-12 h-12 rounded-xl bg-blue-50 text-brand-blue flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand-blue group-hover:text-white transition-colors duration-300">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-lg font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors duration-200">Planifica con claridad</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+                Define qué debe realizarse, en qué sede, con qué frecuencia y bajo qué criterios de aceptación antes de pisar el terreno.
+              </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-brand-blue flex items-center justify-between">
+<span>Estructura formal</span>
+<span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-2xl p-7 border border-brand-borderBlue hover:border-brand-teal/50 shadow-sm hover:shadow-opervia flex flex-col justify-between group cursor-default" style="transition-delay: 0.08s;">
+<div>
+<div class="card-icon w-12 h-12 rounded-xl bg-teal-50 text-brand-teal flex items-center justify-center mb-6 shadow-sm group-hover:bg-brand-teal group-hover:text-white transition-colors duration-300">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-lg font-bold text-brand-navy mb-2 group-hover:text-brand-teal transition-colors duration-200">Registra la ejecución</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+                Los operarios registran resultados directamente desde campo con una experiencia táctil intuitiva pensada para agilidad.
+              </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-brand-teal flex items-center justify-between">
+<span>Cero complejidad móvil</span>
+<span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-2xl p-7 border border-brand-borderBlue hover:border-indigo-400 shadow-sm hover:shadow-opervia flex flex-col justify-between group cursor-default" style="transition-delay: 0.16s;">
+<div>
+<div class="card-icon w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-6 shadow-sm group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-lg font-bold text-brand-navy mb-2 group-hover:text-indigo-600 transition-colors duration-200">Evidencia con contexto</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+                Relaciona fotografías, georreferenciación y listas de chequeo de forma automática con la obligación exacta.
+              </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-indigo-600 flex items-center justify-between">
+<span>Datos con metadatos</span>
+<span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-2xl p-7 border border-brand-borderBlue hover:border-emerald-400 shadow-sm hover:shadow-opervia flex flex-col justify-between group cursor-default" style="transition-delay: 0.24s;">
+<div>
+<div class="card-icon w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 shadow-sm group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h3 class="text-lg font-bold text-brand-navy mb-2 group-hover:text-emerald-600 transition-colors duration-200">Demuestra el cumplimiento</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+                Genera el historial completo de cada servicio para auditorías, revisiones contractuales y acuerdos de nivel de servicio (SLA).
+              </p>
+</div>
+<div class="mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-emerald-600 flex items-center justify-between">
+<span>Auditoría instantánea</span>
+<span class="group-hover:translate-x-1 transition-transform duration-200">→</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ValueProposition -->
+<!-- BEGIN: HowItWorks -->
+<section class="py-20 lg:py-28 bg-white" id="como-funciona">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-teal">Paso a Paso</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight mt-2">
+            De la planificación al cumplimiento.
+          </h2>
+<p class="text-slate-600 mt-3 text-base">
+            Flujo sistemático de 6 fases diseñado para erradicar cualquier ambigüedad en campo.
+          </p>
+</div>
+<!-- 6 Steps Flow Container (Interactive step cards) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 relative" id="stepsContainer">
+<!-- Step 1 -->
+<div class="step-card p-5 bg-white rounded-2xl border border-brand-borderBlue flex flex-col justify-between relative group hover:border-brand-blue hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
+<div>
+<div class="text-xs font-black text-brand-blue mb-2 group-hover:scale-110 transition-transform origin-left">01</div>
+<h4 class="text-base font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors">Planifica</h4>
+<p class="text-xs text-slate-500 leading-normal">
+                Define el servicio, frecuencias y las obligaciones específicas para cada sede.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-bold text-slate-400 group-hover:text-brand-blue transition-colors">FASE 1</div>
+</div>
+<!-- Step 2 -->
+<div class="step-card p-5 bg-white rounded-2xl border border-brand-borderBlue flex flex-col justify-between relative group hover:border-brand-blue hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
+<div>
+<div class="text-xs font-black text-brand-blue mb-2 group-hover:scale-110 transition-transform origin-left">02</div>
+<h4 class="text-base font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors">Asigna</h4>
+<p class="text-xs text-slate-500 leading-normal">
+                Cada operario conoce qué debe ejecutar desde su turno sin intermediarios.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-bold text-slate-400 group-hover:text-brand-blue transition-colors">FASE 2</div>
+</div>
+<!-- Step 3 -->
+<div class="step-card p-5 bg-white rounded-2xl border border-brand-borderBlue flex flex-col justify-between relative group hover:border-brand-blue hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
+<div>
+<div class="text-xs font-black text-brand-blue mb-2 group-hover:scale-110 transition-transform origin-left">03</div>
+<h4 class="text-base font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors">Ejecuta</h4>
+<p class="text-xs text-slate-500 leading-normal">
+                Registra el resultado de forma intuitiva directamente en campo.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-bold text-slate-400 group-hover:text-brand-blue transition-colors">FASE 3</div>
+</div>
+<!-- Step 4 -->
+<div class="step-card p-5 bg-white rounded-2xl border border-brand-borderBlue flex flex-col justify-between relative group hover:border-brand-blue hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
+<div>
+<div class="text-xs font-black text-brand-blue mb-2 group-hover:scale-110 transition-transform origin-left">04</div>
+<h4 class="text-base font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors">Evidencia</h4>
+<p class="text-xs text-slate-500 leading-normal">
+                Adjunta únicamente la evidencia requerida: fotos, firmas y georreferencia.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-bold text-slate-400 group-hover:text-brand-blue transition-colors">FASE 4</div>
+</div>
+<!-- Step 5 -->
+<div class="step-card p-5 bg-white rounded-2xl border border-brand-borderBlue flex flex-col justify-between relative group hover:border-brand-blue hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
+<div>
+<div class="text-xs font-black text-brand-blue mb-2 group-hover:scale-110 transition-transform origin-left">05</div>
+<h4 class="text-base font-bold text-brand-navy mb-2 group-hover:text-brand-blue transition-colors">Supervisa</h4>
+<p class="text-xs text-slate-500 leading-normal">
+                Detecta desviaciones o retrasos y gestiona acciones correctivas a tiempo.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-bold text-slate-400 group-hover:text-brand-blue transition-colors">FASE 5</div>
+</div>
+<!-- Step 6 (Highlighted) -->
+<div class="step-card p-5 bg-brand-teal text-white rounded-2xl border border-brand-teal shadow-lg shadow-brand-teal/20 hover:shadow-xl hover:shadow-brand-teal/35 hover:-translate-y-1.5 flex flex-col justify-between relative transition-all duration-300 cursor-pointer">
+<div>
+<div class="flex items-center justify-between mb-2">
+<span class="text-xs font-black text-teal-200">06</span>
+<span class="text-[9px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 bg-white/20 rounded animate-pulse">Objetivo</span>
+</div>
+<h4 class="text-base font-bold text-white mb-2">Demuestra</h4>
+<p class="text-xs text-teal-50 leading-normal">
+                Obtén un historial trazable del cumplimiento listo para presentar al cliente.
+              </p>
+</div>
+<div class="mt-4 pt-3 border-t border-teal-400/50 text-[11px] font-bold text-teal-100">CUMPLIMIENTO ✓</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HowItWorks -->
+<!-- BEGIN: DualExperience -->
+<section class="py-20 lg:py-28 bg-[#F8FAFD] border-y border-brand-borderBlue/70">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Ecosistema Integral</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight mt-2">
+            Una experiencia para cada rol.
+          </h2>
+<p class="text-slate-600 mt-3 text-base">
+            Potencia a los supervisores con visión integral y simplifica las tareas de los operarios en campo.
+          </p>
+</div>
+<!-- 2 Side-by-side Role Panels -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+<!-- Panel 1: Supervisores -->
+<div class="tilt-card bg-white rounded-3xl p-6 sm:p-8 border border-brand-borderBlue hover:border-brand-blue/40 shadow-opervia-card hover:shadow-2xl flex flex-col justify-between transition-all duration-300 reveal-on-scroll">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-brand-blue text-xs font-bold mb-4 border border-blue-100">
+<span>🖥️</span> Para supervisores
+              </div>
+<h3 class="text-2xl font-bold text-brand-navy mb-3">Control total sin intermediarios</h3>
+<p class="text-slate-600 text-sm leading-relaxed mb-6">
+                Visualiza qué requiere atención inmediata y consulta el historial completo sin reconstruir información desde diferentes canales.
+              </p>
+<!-- Mockup: Supervisor Panel -->
+<div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 space-y-3">
+<div class="flex items-center justify-between text-xs pb-2 border-b border-slate-200">
+<span class="font-bold text-slate-700">Matriz de Cumplimiento Multisede</span>
+<button class="text-brand-blue font-semibold hover:underline bg-blue-50 hover:bg-blue-100/70 px-2 py-0.5 rounded transition-colors" id="filterBtn" type="button">Filtrar: Hoy ▾</button>
+</div>
+<!-- Sede 1 -->
+<div class="bg-white p-3 rounded-xl border border-slate-100 hover:border-emerald-200 hover:shadow-sm transition-all duration-200 flex items-center justify-between cursor-pointer group">
+<div>
+<div class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Sede Corporativa Miraflores</div>
+<div class="text-[11px] text-slate-400">18 tareas programadas • Turno Matutino</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-extrabold text-emerald-600 group-hover:scale-105 inline-block transition-transform">100% OK</span>
+<div class="text-[10px] text-slate-400">Sin demoras</div>
+</div>
+</div>
+<!-- Sede 2 -->
+<div class="bg-white p-3 rounded-xl border border-slate-100 hover:border-amber-300 hover:shadow-sm transition-all duration-200 flex items-center justify-between cursor-pointer group">
+<div>
+<div class="text-xs font-bold text-brand-navy group-hover:text-brand-blue transition-colors">Planta Logística Sur</div>
+<div class="text-[11px] text-slate-400">24 tareas programadas • Turno Matutino</div>
+</div>
+<div class="text-right">
+<span class="text-xs font-extrabold text-amber-600 group-hover:scale-105 inline-block transition-transform">1 Alerta</span>
+<div class="text-[10px] text-amber-600 font-medium">Revisión requerida</div>
+</div>
+</div>
+<!-- Supervisor Action -->
+<div class="pt-1 flex items-center justify-between text-[11px] text-slate-500">
+<span>Acción rápida:</span>
+<button class="ripple-btn font-bold text-brand-blue hover:text-brand-blueHover hover:underline flex items-center gap-1 active:scale-95 transition-all" onclick="alert('Operario de reemplazo asignado con éxito.')" type="button">
+<span>Reasignar operario suplente →</span>
+</button>
+</div>
+</div>
+</div>
+<ul class="mt-6 pt-6 border-t border-slate-100 space-y-2 text-xs font-medium text-slate-600">
+<li class="flex items-center gap-2 hover:text-slate-900 transition-colors">
+<svg class="w-4 h-4 text-brand-teal" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                Alertas automáticas ante servicios demorados
+              </li>
+<li class="flex items-center gap-2 hover:text-slate-900 transition-colors">
+<svg class="w-4 h-4 text-brand-teal" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                Exportación de reportes ejecutivos en un clic
+              </li>
+</ul>
+</div>
+<!-- Panel 2: Operarios -->
+<div class="tilt-card bg-white rounded-3xl p-6 sm:p-8 border border-brand-borderBlue hover:border-brand-teal/40 shadow-opervia-card hover:shadow-2xl flex flex-col justify-between transition-all duration-300 reveal-on-scroll">
+<div>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 text-brand-teal text-xs font-bold mb-4 border border-teal-100">
+<span>📱</span> Para operarios en campo
+              </div>
+<h3 class="text-2xl font-bold text-brand-navy mb-3">Claridad absoluta en el trabajo diario</h3>
+<p class="text-slate-600 text-sm leading-relaxed mb-6">
+                El operario sabe con precisión qué hacer, dónde hacerlo y qué necesita registrar, sin añadir complejidad innecesaria a su labor.
+              </p>
+<!-- Mockup: Operario App View -->
+<div class="bg-slate-50 rounded-2xl p-4 border border-slate-200/80 space-y-3">
+<div class="flex items-center justify-between text-xs pb-2 border-b border-slate-200">
+<span class="font-bold text-slate-700">Mis actividades asignadas</span>
+<span class="text-slate-500 font-medium">Turno: 08:00 - 17:00</span>
+</div>
+<div class="bg-white p-3.5 rounded-xl border border-slate-100 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-bold text-brand-navy">1. Desinfección de Sanitarios B</span>
+<span class="text-[10px] font-semibold text-slate-400">Hasta 11:30 AM</span>
+</div>
+<!-- Checklist pills with interactive click toggle -->
+<div class="grid grid-cols-2 gap-1.5 text-[10px] font-medium text-slate-600" id="checklistGroup">
+<button class="checklist-item p-1.5 bg-slate-50 hover:bg-emerald-50 rounded flex items-center gap-1 text-left transition-colors cursor-pointer" type="button">
+<span class="text-emerald-500 font-bold">✓</span> <span class="check-label">Recojo de residuos</span>
+</button>
+<button class="checklist-item p-1.5 bg-slate-50 hover:bg-emerald-50 rounded flex items-center gap-1 text-left transition-colors cursor-pointer" type="button">
+<span class="text-emerald-500 font-bold">✓</span> <span class="check-label">Lavado de lavamanos</span>
+</button>
+<button class="checklist-item p-1.5 bg-slate-50 hover:bg-emerald-50 rounded flex items-center gap-1 text-left transition-colors cursor-pointer" type="button">
+<span class="text-emerald-500 font-bold">✓</span> <span class="check-label">Reposición de jabón</span>
+</button>
+<button class="checklist-item p-1.5 bg-brand-softBlue rounded text-brand-blue font-bold flex items-center gap-1 text-left hover:bg-blue-100/70 transition-colors cursor-pointer" type="button">
+<span>•</span> <span class="check-label">Firma supervisor</span>
+</button>
+</div>
+<div class="flex gap-2 pt-1">
+<button class="ripple-btn flex-1 py-1.5 text-[11px] font-bold bg-white hover:bg-slate-50 border border-slate-200 text-slate-600 rounded-lg active:scale-95 transition-all" type="button">
+                      Reportar impedimento
+                    </button>
+<button class="ripple-btn flex-1 py-1.5 text-[11px] font-bold bg-brand-blue hover:bg-brand-blueHover text-white rounded-lg active:scale-95 transition-all shadow-sm hover:shadow" type="button">
+                      Foto &amp; Cerrar
+                    </button>
+</div>
+</div>
+<div class="text-[11px] text-center text-slate-400">
+                  Siguiente tarea: Aspirado de alfombras Piso 5 (13:00 PM)
+                </div>
+</div>
+</div>
+<ul class="mt-6 pt-6 border-t border-slate-100 space-y-2 text-xs font-medium text-slate-600">
+<li class="flex items-center gap-2 hover:text-slate-900 transition-colors">
+<svg class="w-4 h-4 text-brand-teal" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                Funciona sin fricción técnica ni entrenamientos complejos
+              </li>
+<li class="flex items-center gap-2 hover:text-slate-900 transition-colors">
+<svg class="w-4 h-4 text-brand-teal" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                Carga de fotos optimizada y geolocalizada en segundos
+              </li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DualExperience -->
+<!-- BEGIN: TraceabilityCase -->
+<section class="py-20 lg:py-28 bg-white relative">
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-[#F0F6FD] rounded-3xl p-8 sm:p-12 border border-brand-borderBlue hover:border-brand-blue/30 shadow-sm hover:shadow-xl transition-all duration-300 relative overflow-hidden reveal-on-scroll">
+<div class="max-w-2xl mb-10">
+<span class="text-xs font-black uppercase tracking-wider text-brand-teal">Trazabilidad Total</span>
+<h2 class="text-2xl sm:text-3xl font-extrabold text-brand-navy tracking-tight mt-1">
+              No solo sabes si se hizo. Sabes exactamente qué ocurrió.
+            </h2>
+<p class="text-slate-600 text-sm sm:text-base mt-2">
+              Service Compliance preserva el contexto original y registra la resolución de incidencias en tiempo real sin alterar la verdad del servicio.
+            </p>
+</div>
+<!-- Real Audit Timeline with interactive items & pulsing dot indicators -->
+<div class="relative pl-6 sm:pl-8 space-y-6 before:content-[''] before:absolute before:left-2.5 sm:before:left-3.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-brand-borderBlue">
+<!-- Event 1 -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-white/80 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-brand-blue ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-brand-navy">08:00 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Obligación asignada: Limpieza integral Piso 3 Oficinas</p>
+<p class="text-[11px] text-slate-500">Plan de servicio habitual — Turno Regular</p>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-white/80 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-brand-blue ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-brand-navy">09:14 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Ejecución registrada por operario M. López</p>
+<p class="text-[11px] text-slate-500">Registro con marcación GPS en rango válido</p>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-white/80 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-brand-blue ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-brand-navy">09:16 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Evidencia adjuntada: 3 fotografías de verificación</p>
+<p class="text-[11px] text-slate-500">Metadatos de captura y hora preservados</p>
+</div>
+</div>
+<!-- Event 4 (Deviation) -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-amber-100/60 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-amber-500 ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-amber-600">09:30 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Desviación detectada: Insumo sanitizante agotado en baño B</p>
+<p class="text-[11px] text-amber-700 font-medium">Alerta automática generada para supervisor de zona</p>
+</div>
+</div>
+<!-- Event 5 (Corrective Action) -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-teal-50/80 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-brand-teal ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-brand-teal">10:05 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Acción correctiva asignada: Reposición prioritaria de dispensadores</p>
+<p class="text-[11px] text-slate-500">Supervisor R. Vargas envía dotación complementaria</p>
+</div>
+</div>
+<!-- Event 6 (Closed) -->
+<div class="timeline-item relative flex items-start gap-4 p-2 rounded-xl hover:bg-emerald-50/80 transition-colors duration-200 cursor-pointer">
+<span class="timeline-dot absolute -left-[1.95rem] sm:-left-[2.45rem] top-3 w-3.5 h-3.5 rounded-full bg-emerald-600 ring-4 ring-[#F0F6FD]"></span>
+<div>
+<span class="text-xs font-mono font-bold text-emerald-600">10:42 AM</span>
+<p class="text-xs sm:text-sm font-semibold text-brand-navy">Corrección validada: Caso cerrado con nueva evidencia fotográfica</p>
+<p class="text-[11px] text-emerald-700 font-medium">Historial 100% auditable conservado</p>
+</div>
+</div>
+</div>
+<!-- Bottom Note -->
+<div class="mt-8 pt-6 border-t border-brand-borderBlue flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 rounded bg-teal-100 text-brand-teal text-xs font-extrabold shadow-sm hover:scale-105 transition-transform">✓ Historial conservado</span>
+<span class="text-xs text-slate-600">El contexto original nunca se sobreescribe ni se pierde.</span>
+</div>
+<a class="text-xs font-bold text-brand-blue hover:text-brand-blueHover hover:underline inline-flex items-center gap-1 group" href="#demo">
+<span>Ver caso en vivo en la demo</span>
+<span class="group-hover:translate-x-1 transition-transform">→</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- END: TraceabilityCase -->
+<!-- BEGIN: BenefitsSection -->
+<section class="py-20 lg:py-24 bg-brand-softBlue/40" id="beneficios">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-blue">Ventajas Comprobadas</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight mt-2">
+            Más control. Menos reconstrucción manual.
+          </h2>
+<p class="text-slate-600 mt-3 text-base">
+            Diseñado para transformar el orden operativo y la credibilidad frente a tus clientes.
+          </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Benefit 1 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-brand-blue/50 shadow-sm hover:shadow-opervia transition-all group cursor-default">
+<div class="card-icon w-12 h-12 rounded-2xl bg-blue-50 text-brand-blue flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-brand-blue group-hover:text-white transition-all duration-300">
+              📁
+            </div>
+<h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-blue transition-colors">Información centralizada</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+              Reduce la dependencia de mensajes de chat dispersos, correos perdidos y formatos impresos que nadie puede consultar cuando surge un reclamo formal.
+            </p>
+</div>
+<!-- Benefit 2 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-brand-teal/50 shadow-sm hover:shadow-opervia transition-all group cursor-default" style="transition-delay: 0.1s;">
+<div class="card-icon w-12 h-12 rounded-2xl bg-teal-50 text-brand-teal flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-brand-teal group-hover:text-white transition-all duration-300">
+              🔗
+            </div>
+<h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-brand-teal transition-colors">Trazabilidad de principio a fin</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+              Relaciona cada obligación pactada con su ejecución real, evidencia multimedia y validación de supervisor para respaldar cobros y auditorías.
+            </p>
+</div>
+<!-- Benefit 3 -->
+<div class="tilt-card reveal-on-scroll bg-white rounded-3xl p-8 border border-brand-borderBlue hover:border-indigo-400 shadow-sm hover:shadow-opervia transition-all group cursor-default" style="transition-delay: 0.2s;">
+<div class="card-icon w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-lg mb-6 shadow-sm group-hover:scale-110 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+              ⚡
+            </div>
+<h3 class="text-xl font-bold text-brand-navy mb-3 group-hover:text-indigo-600 transition-colors">Supervisión más eficiente</h3>
+<p class="text-sm text-slate-600 leading-relaxed">
+              Identifica al instante qué actividades requieren atención o refuerzo sin necesidad de llamar a cada operario o recorrer múltiples sedes a ciegas.
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BenefitsSection -->
+<!-- BEGIN: PricingSection -->
+<section class="py-20 lg:py-28 bg-white border-t border-slate-100" id="precios">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-2xl mx-auto mb-16 reveal-on-scroll">
+<span class="text-xs font-bold uppercase tracking-wider text-brand-teal">Planes y Precios</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-brand-navy tracking-tight mt-2">
+            Planes que crecen con tu operación.
+          </h2>
+<p class="text-slate-600 mt-3 text-base">
+            Empieza con la capacidad que tu equipo necesita hoy y escala sin fricciones.
+          </p>
+</div>
+<!-- 2 Balanced Pricing Cards with hover lift and glowing recommended badge -->
+<div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+<!-- Plan 1: Operación -->
+<div class="pricing-card tilt-card reveal-on-scroll bg-white rounded-3xl p-8 sm:p-10 border border-brand-borderBlue hover:border-brand-blue/40 shadow-sm hover:shadow-opervia flex flex-col justify-between transition-all duration-300">
+<div>
+<div class="text-sm font-extrabold text-brand-navy tracking-tight uppercase">Plan Operación</div>
+<p class="text-xs text-slate-500 mt-1">Para equipos en consolidación</p>
+<div class="mt-6 flex items-baseline gap-1">
+<span class="text-4xl font-extrabold text-brand-navy">S/ 300</span>
+<span class="text-sm text-slate-500 font-semibold">/ mes</span>
+</div>
+<p class="text-xs text-brand-blue font-bold mt-2">Para equipos de hasta 10 operarios</p>
+<div class="mt-8 pt-8 border-t border-slate-100 space-y-3.5">
+<div class="text-xs font-bold text-slate-800 uppercase tracking-wider">Incluye:</div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Gestión integral de servicios
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Obligaciones y asignaciones por sede
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Registro móvil de ejecución
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Evidencias fotográficas geolocalizadas
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Seguimiento de cumplimiento básico
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-600">
+<svg class="w-4 h-4 text-brand-teal flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Reportes estándar en PDF
+                </div>
+</div>
+</div>
+<div class="mt-8">
+<a class="block w-full text-center py-3 px-6 text-sm font-bold text-brand-navy hover:text-brand-blue bg-brand-softBlue hover:bg-blue-100/70 border border-brand-borderBlue hover:border-brand-blue/30 rounded-xl active:scale-95 transition-all shadow-sm hover:shadow" href="#demo">
+                Solicitar demo
+              </a>
+</div>
+</div>
+<!-- Plan 2: Operación Plus (Highlighted & Pulsing Glow) -->
+<div class="pricing-card tilt-card pulse-glow-card reveal-on-scroll bg-white rounded-3xl p-8 sm:p-10 border-2 border-brand-blue shadow-opervia relative flex flex-col justify-between transition-all duration-300" style="transition-delay: 0.12s;">
+<div class="absolute -top-3.5 right-6 px-3 py-1 rounded-full bg-brand-blue text-white text-[10px] font-extrabold uppercase tracking-wider shadow-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-white animate-ping"></span>
+<span>Recomendado para escalamiento</span>
+</div>
+<div>
+<div class="text-sm font-extrabold text-brand-navy tracking-tight uppercase">Plan Operación Plus</div>
+<p class="text-xs text-slate-500 mt-1">Para empresas multisede y contratistas medianos</p>
+<div class="mt-6 flex items-baseline gap-1">
+<span class="text-4xl font-extrabold text-brand-navy">S/ 900</span>
+<span class="text-sm text-slate-500 font-semibold">/ mes</span>
+</div>
+<p class="text-xs text-brand-teal font-bold mt-2">Para operaciones con más de 10 operarios</p>
+<div class="mt-8 pt-8 border-t border-slate-100 space-y-3.5">
+<div class="text-xs font-bold text-slate-800 uppercase tracking-wider">Todo lo de Operación, más:</div>
+<div class="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+<svg class="w-4 h-4 text-brand-blue flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Mayor capacidad de usuarios y cuentas
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+<svg class="w-4 h-4 text-brand-blue flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Gestión de múltiples operaciones y clientes
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+<svg class="w-4 h-4 text-brand-blue flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Seguimiento avanzado de desviaciones y SLAs
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+<svg class="w-4 h-4 text-brand-blue flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Reportes ampliados y analítica de desempeño
+                </div>
+<div class="flex items-center gap-2.5 text-xs text-slate-700 font-medium">
+<svg class="w-4 h-4 text-brand-blue flex-shrink-0" fill="currentColor" viewbox="0 0 20 20"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" fill-rule="evenodd"></path></svg>
+                  Soporte técnico prioritario y onboarding guiado
+                </div>
+</div>
+</div>
+<div class="mt-8">
+<a class="btn-shimmer block w-full text-center py-3 px-6 text-sm font-bold text-white bg-brand-blue hover:bg-brand-blueHover rounded-xl shadow-md shadow-brand-blue/20 hover:shadow-xl hover:shadow-brand-blue/35 active:scale-95 transition-all" href="#demo">
+                Hablar con Opervia
+              </a>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center text-xs text-slate-500 reveal-on-scroll">
+          ¿Tu operación tiene necesidades específicas o mayor volumen? <a class="text-brand-blue font-bold hover:underline" href="#contacto">Conversemos para un plan a medida</a>.
+        </div>
+</div>
+</section>
+<!-- END: PricingSection -->
+<!-- BEGIN: FinalCTA -->
+<section class="py-16 sm:py-24 bg-white" id="demo">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-brand-navy rounded-3xl p-8 sm:p-14 lg:p-16 relative overflow-hidden text-white shadow-2xl reveal-on-scroll">
+<!-- Background animated glow circles & shimmer wave -->
+<div class="animate-cta-wave absolute -top-32 -right-32 w-96 h-96 bg-brand-blue/30 rounded-full blur-3xl pointer-events-none"></div>
+<div class="animate-cta-wave absolute -bottom-32 -left-32 w-96 h-96 bg-brand-teal/25 rounded-full blur-3xl pointer-events-none" style="animation-direction: reverse;"></div>
+<div class="relative z-10 max-w-3xl">
+<span class="inline-block text-xs font-extrabold uppercase tracking-widest text-teal-300 mb-3">Da el siguiente paso</span>
+<h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+              Convierte tu operación en evidencia irrefutable de cumplimiento.
+            </h2>
+<p class="mt-4 text-base sm:text-lg text-slate-300 max-w-2xl">
+              Descubre cómo Service Compliance puede ayudarte a centralizar, supervisar y explicar cada servicio frente a tus clientes con total tranquilidad.
+            </p>
+<div class="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+<a class="btn-shimmer inline-flex justify-center items-center gap-2 px-8 py-4 text-base font-bold text-white bg-brand-blue hover:bg-brand-blueHover rounded-xl shadow-lg shadow-brand-blue/30 hover:shadow-2xl hover:shadow-brand-blue/50 active:scale-95 transition-all duration-200" href="#">
+<span>Solicitar una demo personalizada</span>
+<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</a>
+<a class="inline-flex justify-center items-center px-6 py-4 text-base font-semibold text-white/90 hover:text-white border border-white/20 hover:border-white/50 hover:bg-white/5 rounded-xl active:scale-95 transition-all duration-200" href="#">
+                Contactar con Opervia
+              </a>
+</div>
+<div class="mt-8 flex items-center gap-3 text-xs text-slate-400">
+<span class="relative flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-teal-400"></span>
+</span>
+<span>Demostración de 20 minutos adaptada al tipo de servicio de tu empresa.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FinalCTA -->
+</main>
+<!-- Site footer and secondary navigation -->
+<!-- BEGIN: MainFooter -->
+<footer aria-label="Pie de página" class="bg-slate-50 border-t border-slate-200/80 pt-16 pb-12" id="nosotros">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-5 gap-10 pb-12 border-b border-slate-200">
+<!-- Brand column -->
+<div class="md:col-span-2 space-y-4">
+<a class="inline-flex items-center gap-3 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-brand-navy to-brand-blue flex items-center justify-center text-white font-bold text-xs shadow-sm group-hover:scale-105 group-hover:shadow-md transition-all">
+              O
+            </div>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tight text-brand-navy leading-none group-hover:text-brand-blue transition-colors">Opervia</span>
+<span class="text-[8px] font-bold tracking-widest text-brand-teal uppercase mt-0.5 leading-none">SERVICE COMPLIANCE</span>
+</div>
+</a>
+<p class="text-xs text-slate-500 leading-relaxed max-w-sm">
+            Tecnología especializada para servicios que necesitan demostrar su cumplimiento diario con rigor, trazabilidad y simplicidad operativa.
+          </p>
+<div class="text-xs text-slate-400">
+            Lima, Perú • Cobertura en toda la región
+          </div>
+</div>
+<!-- Links: Producto -->
+<div class="space-y-3">
+<div class="text-xs font-bold text-brand-navy uppercase tracking-wider">Producto</div>
+<ul class="space-y-2 text-xs text-slate-600">
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Service Compliance</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Funcionalidades de campo</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Panel de supervisores</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#precios">Precios</a></li>
+</ul>
+</div>
+<!-- Links: Empresa -->
+<div class="space-y-3">
+<div class="text-xs font-bold text-brand-navy uppercase tracking-wider">Empresa</div>
+<ul class="space-y-2 text-xs text-slate-600">
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Nosotros</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Contacto</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Casos de uso</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Blog operativo</a></li>
+</ul>
+</div>
+<!-- Links: Soporte -->
+<div class="space-y-3">
+<div class="text-xs font-bold text-brand-navy uppercase tracking-wider">Soporte &amp; Acceso</div>
+<ul class="space-y-2 text-xs text-slate-600">
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Centro de ayuda</a></li>
+<li><a class="hover:text-brand-blue font-semibold text-brand-blue transition-colors duration-150" href="#">Iniciar sesión en Opervia</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Estado del sistema</a></li>
+<li><a class="hover:text-brand-blue transition-colors duration-150" href="#">Seguridad de la información</a></li>
+</ul>
+</div>
+</div>
+<!-- Bottom Bar -->
+<div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+<div>
+          © 2026 Opervia. Todos los derechos reservados.
+        </div>
+<div class="flex items-center gap-6">
+<a class="hover:text-brand-navy transition-colors" href="#">Términos del Servicio</a>
+<a class="hover:text-brand-navy transition-colors" href="#">Política de Privacidad</a>
+<a class="hover:text-brand-navy transition-colors" href="#">Cumplimiento Legal</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- Page interactions -->
+<!-- Micro-interactions and transitions -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 0. Lightweight client-side internationalization (Spanish / English)
+    const i18n = {
+      es: {
+        navProduct: 'Producto',
+        navHow: 'Cómo funciona',
+        navBenefits: 'Beneficios',
+        navPricing: 'Precios',
+        navAbout: 'Nosotros',
+        login: 'Iniciar sesión',
+        demo: 'Solicitar demo',
+        heroBadge: 'Gestión inteligente de servicios tercerizados',
+        heroTitle: 'Convierte cada servicio en <span class="text-brand-blue relative inline-block transition-transform hover:scale-[1.02] duration-200">cumplimiento demostrable</span>.',
+        heroDescription: 'Centraliza la planificación, ejecución, evidencia y seguimiento de tus servicios de limpieza y mantenimiento en una sola plataforma unificada.',
+        heroCta: 'Solicitar una demo',
+        heroSecondary: 'Conocer Service Compliance',
+        heroTrust: 'Menos información dispersa. Más control sobre cada servicio.',
+        problemEyebrow: 'Diagnóstico Operativo',
+        problemTitle: 'Cuando la operación está dispersa, demostrar el cumplimiento se vuelve difícil.',
+        problemDescription: 'Mensajes de chat, fotografías desordenadas, hojas de cálculo y formatos físicos pueden contener partes de la operación, pero no siempre cuentan la historia completa ni ofrecen respaldo auditable.',
+        pricingTitle: 'Planes simples para comenzar a transformar tu operación.',
+        finalEyebrow: 'Da el siguiente paso',
+        finalTitle: 'Convierte tu operación en evidencia irrefutable de cumplimiento.',
+        finalDescription: 'Descubre cómo Service Compliance puede ayudarte a centralizar, supervisar y explicar cada servicio frente a tus clientes con total tranquilidad.',
+        finalCta: 'Solicitar una demo personalizada',
+        finalContact: 'Contactar con Opervia'
+      },
+      en: {
+        navProduct: 'Product',
+        navHow: 'How it works',
+        navBenefits: 'Benefits',
+        navPricing: 'Pricing',
+        navAbout: 'About us',
+        login: 'Log in',
+        demo: 'Request a demo',
+        heroBadge: 'Smart management for outsourced services',
+        heroTitle: 'Turn every service into <span class="text-brand-blue relative inline-block transition-transform hover:scale-[1.02] duration-200">demonstrable compliance</span>.',
+        heroDescription: 'Centralize the planning, execution, evidence, and follow-up of your cleaning and maintenance services in one unified platform.',
+        heroCta: 'Request a demo',
+        heroSecondary: 'Discover Service Compliance',
+        heroTrust: 'Less scattered information. More control over every service.',
+        problemEyebrow: 'Operational diagnosis',
+        problemTitle: 'When operations are scattered, proving compliance becomes difficult.',
+        problemDescription: 'Chat messages, disorganized photos, spreadsheets, and paper forms may contain parts of the operation, but they do not always tell the complete story or provide auditable support.',
+        pricingTitle: 'Simple plans to start transforming your operation.',
+        finalEyebrow: 'Take the next step',
+        finalTitle: 'Turn your operation into irrefutable evidence of compliance.',
+        finalDescription: 'Discover how Service Compliance can help you centralize, supervise, and explain every service to your clients with complete peace of mind.',
+        finalCta: 'Request a personalized demo',
+        finalContact: 'Contact Opervia'
+      }
+    };
+
+    const languageNodes = [
+      ['header nav a[href="#producto"]', 'navProduct'],
+      ['header nav a[href="#como-funciona"]', 'navHow'],
+      ['header nav a[href="#beneficios"]', 'navBenefits'],
+      ['header nav a[href="#precios"]', 'navPricing'],
+      ['header nav a[href="#nosotros"]', 'navAbout'],
+      ['#loginLink', 'login'],
+      ['header a[href="#demo"] span', 'demo'],
+      ['section:first-of-type .inline-flex.items-center.gap-2', 'heroBadge'],
+      ['section:first-of-type h1', 'heroTitle'],
+      ['section:first-of-type h1 + p', 'heroDescription'],
+      ['section:first-of-type a[href="#demo"] span', 'heroCta'],
+      ['section:first-of-type a[href="#como-funciona"] span', 'heroSecondary'],
+      ['section:first-of-type .uppercase.tracking-wider span', 'heroTrust'],
+      ['section#producto .text-brand-teal', 'problemEyebrow'],
+      ['section#producto h2', 'problemTitle'],
+      ['section#producto h2 + p', 'problemDescription'],
+      ['section#precios h2', 'pricingTitle'],
+      ['section#demo .text-teal-300', 'finalEyebrow'],
+      ['section#demo h2', 'finalTitle'],
+      ['section#demo h2 + p', 'finalDescription'],
+      ['section#demo a[href="#"] span', 'finalCta'],
+      ['section#demo a[href="#"] + a', 'finalContact']
+    ];
+    const preserveChildren = new Set(['navProduct', 'navHow', 'navBenefits', 'navPricing', 'navAbout', 'heroBadge']);
+
+    const defaultLanguage = localStorage.getItem('opervia-language') || 'es';
+    const languageToggle = document.getElementById('languageToggle');
+    const setLanguage = (language) => {
+      const copy = i18n[language];
+      languageNodes.forEach(([selector, key]) => {
+        const node = document.querySelector(selector);
+        if (!node) return;
+        if (preserveChildren.has(key)) {
+          const textNode = [...node.childNodes].reverse().find(child => child.nodeType === Node.TEXT_NODE && child.textContent.trim());
+          if (textNode) textNode.textContent = `\n  ${copy[key]}\n  `;
+        } else {
+          node.innerHTML = copy[key];
+        }
+      });
+      document.documentElement.lang = language;
+      languageToggle.textContent = language === 'es' ? 'EN' : 'ES';
+      languageToggle.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Cambiar a español');
+      localStorage.setItem('opervia-language', language);
+    };
+    setLanguage(defaultLanguage);
+    languageToggle.addEventListener('click', () => setLanguage(document.documentElement.lang === 'es' ? 'en' : 'es'));
+
+    // 1. Sticky Header Elevation on Scroll
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 20) {
+        header.classList.add('shadow-md', 'bg-white/95');
+        header.classList.remove('bg-white/85');
+      } else {
+        header.classList.remove('shadow-md', 'bg-white/95');
+        header.classList.add('bg-white/85');
+      }
+    }, { passive: true });
+
+    // 2. Intersection Observer for Scroll Reveals
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add('is-revealed'));
+    }
+
+    // 3. Interactive Step Cards Highlight in "Cómo Funciona"
+    const stepCards = document.querySelectorAll('.step-card');
+    stepCards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        stepCards.forEach((c, i) => {
+          if (i <= idx) {
+            c.classList.add('border-brand-blue/70');
+          }
+        });
+      });
+      card.addEventListener('mouseleave', () => {
+        stepCards.forEach((c) => {
+          if (!c.classList.contains('bg-brand-teal')) {
+            c.classList.remove('border-brand-blue/70');
+          }
+        });
+      });
+    });
+
+    // 4. Checklist item interactive toggling simulation inside the mobile app mockup
+    const checklistItems = document.querySelectorAll('.checklist-item');
+    checklistItems.forEach(item => {
+      item.addEventListener('click', () => {
+        const iconSpan = item.querySelector('span:first-child');
+        if (iconSpan.textContent.trim() === '✓') {
+          iconSpan.textContent = '○';
+          iconSpan.classList.remove('text-emerald-500');
+          iconSpan.classList.add('text-slate-400');
+          item.classList.add('opacity-60');
+        } else if (iconSpan.textContent.trim() === '○') {
+          iconSpan.textContent = '✓';
+          iconSpan.classList.add('text-emerald-500');
+          iconSpan.classList.remove('text-slate-400');
+          item.classList.remove('opacity-60');
+        } else {
+          // for the signature bullet item
+          alert('Firma de supervisor registrada con marca de tiempo.');
+        }
+      });
+    });
+
+    // 5. Supervisor filter simulation button
+    const filterBtn = document.getElementById('filterBtn');
+    if (filterBtn) {
+      const filters = ['Filtrar: Hoy ▾', 'Filtrar: Semana ▾', 'Filtrar: Mes ▾'];
+      let fIndex = 0;
+      filterBtn.addEventListener('click', () => {
+        fIndex = (fIndex + 1) % filters.length;
+        filterBtn.textContent = filters[fIndex];
+        filterBtn.classList.add('scale-105');
+        setTimeout(() => filterBtn.classList.remove('scale-105'), 200);
+      });
+    }
+
+    // 6. Smooth button ripple / press feedback
+    const rippleButtons = document.querySelectorAll('.ripple-btn');
+    rippleButtons.forEach(btn => {
+      btn.addEventListener('mousedown', function() {
+        this.style.transform = 'scale(0.97)';
+      });
+      btn.addEventListener('mouseup', function() {
+        this.style.transform = '';
+      });
+      btn.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+      });
+    });
+  });
+</script>
+</body></html>

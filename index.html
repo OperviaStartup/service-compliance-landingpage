@@ -1314,49 +1314,89 @@
       }
     };
 
-    const languageNodes = [
-      ['header nav a[href="#producto"]', 'navProduct'],
-      ['header nav a[href="#como-funciona"]', 'navHow'],
-      ['header nav a[href="#beneficios"]', 'navBenefits'],
-      ['header nav a[href="#precios"]', 'navPricing'],
-      ['header nav a[href="#nosotros"]', 'navAbout'],
-      ['#loginLink', 'login'],
-      ['header a[href="#demo"] span', 'demo'],
-      ['section:first-of-type .inline-flex.items-center.gap-2', 'heroBadge'],
-      ['section:first-of-type h1', 'heroTitle'],
-      ['section:first-of-type h1 + p', 'heroDescription'],
-      ['section:first-of-type a[href="#demo"] span', 'heroCta'],
-      ['section:first-of-type a[href="#como-funciona"] span', 'heroSecondary'],
-      ['section:first-of-type .uppercase.tracking-wider span', 'heroTrust'],
-      ['section#producto .text-brand-teal', 'problemEyebrow'],
-      ['section#producto h2', 'problemTitle'],
-      ['section#producto h2 + p', 'problemDescription'],
-      ['section#precios h2', 'pricingTitle'],
-      ['section#demo .text-teal-300', 'finalEyebrow'],
-      ['section#demo h2', 'finalTitle'],
-      ['section#demo h2 + p', 'finalDescription'],
-      ['section#demo a[href="#"] span', 'finalCta'],
-      ['section#demo a[href="#"] + a', 'finalContact']
-    ];
-    const preserveChildren = new Set(['navProduct', 'navHow', 'navBenefits', 'navPricing', 'navAbout', 'heroBadge']);
-
     const defaultLanguage = localStorage.getItem('opervia-language') || 'es';
     const languageToggle = document.getElementById('languageToggle');
+    const normalizeCopy = (value) => value.replace(/\s+/g, ' ').trim();
+    const englishCopy = {
+      'Producto': 'Product', 'Cómo funciona': 'How it works', 'Beneficios': 'Benefits', 'Precios': 'Pricing', 'Nosotros': 'About us',
+      'Iniciar sesión': 'Log in', 'Solicitar demo': 'Request a demo', 'Gestión inteligente de servicios tercerizados': 'Smart management for outsourced services',
+      'Convierte cada servicio en': 'Turn every service into', 'cumplimiento demostrable': 'demonstrable compliance',
+      'Centraliza la planificación, ejecución, evidencia y seguimiento de tus servicios de limpieza y mantenimiento en una sola plataforma unificada.': 'Centralize the planning, execution, evidence, and follow-up of your cleaning and maintenance services in one unified platform.',
+      'Solicitar una demo': 'Request a demo', 'Conocer Service Compliance': 'Discover Service Compliance', 'Menos información dispersa. Más control sobre cada servicio.': 'Less scattered information. More control over every service.',
+      'Opervia Console — Turno Mañana': 'Opervia Console — Morning Shift', 'EN VIVO': 'LIVE', 'Cumplimiento Global': 'Global Compliance', '✓ 128 / 132 Completadas': '✓ 128 / 132 Completed',
+      'Obligaciones': 'Obligations', 'Evidencias': 'Evidence', '128 val.': '128 valid.', 'Desviaciones': 'Deviations', '2 activas': '2 active', 'Registro de Servicios Recientes': 'Recent Service Records',
+      'Edificio Central • Áreas Comunes': 'Central Building • Common Areas', 'Operario: M. Quispe • 09:15 AM': 'Operator: M. Quispe • 09:15 AM', 'Validado ✓': 'Validated ✓',
+      'Torre B • Desinfección Nivel 2': 'Tower B • Level 2 Disinfection', 'Operario: C. Alva • 10:30 AM': 'Operator: C. Alva • 10:30 AM', 'En Proceso': 'In Progress',
+      'Opervia Campo': 'Opervia Field', 'GPS OK': 'GPS OK', 'Tarea en curso': 'Task in progress', 'Piso 4 - Sector Norte': 'Floor 4 - North Sector', 'Limpieza profunda y reposición': 'Deep cleaning and restocking',
+      'Evidencia fotográfica (2)': 'Photo evidence (2)', 'Completar actividad →': 'Complete activity →',
+      'Diagnóstico Operativo': 'Operational diagnosis', 'Cuando la operación está dispersa, demostrar el cumplimiento se vuelve difícil.': 'When operations are scattered, proving compliance becomes difficult.',
+      'Mensajes de chat, fotografías desordenadas, hojas de cálculo y formatos físicos pueden contener partes de la operación, pero no siempre cuentan la historia completa ni ofrecen respaldo auditable.': 'Chat messages, disorganized photos, spreadsheets, and paper forms may contain parts of the operation, but they do not always tell the complete story or provide auditable support.',
+      'Operación fragmentada tradicional': 'Traditional fragmented operations', 'Puntos Ciegos': 'Blind spots', 'Información desvinculada entre los operarios en campo y los informes que exige el cliente.': 'Disconnected information between field operators and the reports required by the client.',
+      'Chats WhatsApp': 'WhatsApp chats', 'Mensajes perdidos': 'Lost messages', 'Papel físico': 'Paper forms', 'Ilegible o extraviado': 'Illegible or misplaced', 'Hojas Excel': 'Excel sheets', 'Desactualizadas': 'Out of date',
+      'Fotos sin hora': 'Photos without timestamps', 'Sin trazabilidad': 'No traceability', 'Llamadas': 'Calls', 'Sin registro formal': 'No formal record', 'Reportes tarde': 'Late reports', 'Reclamos del cliente': 'Client complaints',
+      'Resultado habitual:': 'Typical result:', 'Horas perdidas intentando reconstruir qué se hizo, disputas con clientes sobre si el servicio realmente se ejecutó y multas por incumplimiento contractual.': 'Hours lost reconstructing what was done, disputes with clients over whether the service was completed, and penalties for contractual non-compliance.',
+      'Con Service Compliance': 'With Service Compliance', '100% Conectado': '100% Connected', 'Un único hilo conductor que transforma cada actividad de campo en un respaldo formal.': 'A single thread that turns every field activity into formal evidence.',
+      'Plan de servicio claro': 'Clear service plan', 'Parámetros definidos': 'Defined parameters', 'Obligación asignada al operario': 'Obligation assigned to the operator', 'Directo en su móvil': 'Directly on their phone',
+      'Ejecución con evidencia y geolocalización': 'Execution with evidence and geolocation', 'Trazabilidad total': 'Full traceability', 'Resultado con Opervia:': 'Result with Opervia:', 'Registro auditable e indiscutible frente a supervisores y clientes corporativos con cero esfuerzo de reconstrucción.': 'Auditable, indisputable record for supervisors and corporate clients with zero reconstruction effort.',
+      'Propuesta de Valor': 'Value proposition', 'De la planificación al cumplimiento.': 'From planning to compliance.', 'Define el servicio, frecuencias y las obligaciones específicas para cada sede.': 'Define the service, frequencies, and specific obligations for each site.',
+      'Define qué debe realizarse, en qué sede, con qué frecuencia y bajo qué criterios de aceptación antes de pisar el terreno.': 'Define what must be done, where, how often, and under which acceptance criteria before entering the field.',
+      'Planifica': 'Plan', 'Planifica con claridad': 'Plan with clarity', 'Asigna': 'Assign', 'Ejecuta': 'Execute', 'Supervisa': 'Supervise', 'Demuestra': 'Prove', 'Demuestra el cumplimiento': 'Prove compliance',
+      'Registra la ejecución': 'Record execution', 'Registra el resultado de forma intuitiva directamente en campo.': 'Record the result intuitively directly in the field.', 'El operario sabe con precisión qué hacer, dónde hacerlo y qué necesita registrar, sin añadir complejidad innecesaria a su labor.': 'The operator knows exactly what to do, where to do it, and what to record, without unnecessary complexity.',
+      'Detecta desviaciones o retrasos y gestiona acciones correctivas a tiempo.': 'Detect deviations or delays and manage corrective actions on time.', 'Obtén un historial trazable del cumplimiento listo para presentar al cliente.': 'Get a traceable compliance history ready to present to the client.',
+      'Cómo funciona': 'How it works', 'Paso a Paso': 'Step by step', 'Flujo sistemático de 6 fases diseñado para erradicar cualquier ambigüedad en campo.': 'A systematic six-phase workflow designed to eliminate ambiguity in the field.',
+      'FASE 1': 'PHASE 1', 'FASE 2': 'PHASE 2', 'FASE 3': 'PHASE 3', 'FASE 4': 'PHASE 4', 'FASE 5': 'PHASE 5', 'Objetivo': 'Objective', 'Información centralizada': 'Centralized information',
+      'Datos con metadatos': 'Data with metadata', 'Evidencia con contexto': 'Evidence with context', 'Auditoría instantánea': 'Instant audit', 'Trazabilidad Total': 'End-to-end traceability',
+      'Una experiencia para cada rol.': 'An experience for every role.', 'Para operarios en campo': 'For field operators', 'Los operarios registran resultados directamente desde campo con una experiencia táctil intuitiva pensada para agilidad.': 'Operators record results directly from the field with an intuitive touch experience designed for speed.',
+      'Para supervisores': 'For supervisors', 'Visualiza qué requiere atención inmediata y consulta el historial completo sin reconstruir información desde diferentes canales.': 'See what needs immediate attention and review the complete history without reconstructing information from different channels.',
+      'Matriz de Cumplimiento Multisede': 'Multi-site Compliance Matrix', 'Supervisión más eficiente': 'More efficient supervision', 'Control total sin intermediarios': 'Total control without intermediaries',
+      'No solo sabes si se hizo. Sabes exactamente qué ocurrió.': 'You do not just know if it was done. You know exactly what happened.', 'Más control. Menos reconstrucción manual.': 'More control. Less manual reconstruction.',
+      'Beneficios': 'Benefits', 'Ventajas Comprobadas': 'Proven benefits', 'Cero complejidad móvil': 'Zero mobile complexity', 'Funciona sin fricción técnica ni entrenamientos complejos': 'Works without technical friction or complex training',
+      'Claridad absoluta en el trabajo diario': 'Absolute clarity in daily work', 'Evidencia fotográfica geolocalizada': 'Geolocated photographic evidence', 'Carga de fotos optimizada y geolocalizada en segundos': 'Optimized, geolocated photo upload in seconds',
+      'Alertas automáticas ante servicios demorados': 'Automatic alerts for delayed services', 'Identifica al instante qué actividades requieren atención o refuerzo sin necesidad de llamar a cada operario o recorrer múltiples sedes a ciegas.': 'Immediately identify which activities need attention or reinforcement without calling every operator or visiting multiple sites blindly.',
+      'Trazabilidad de principio a fin': 'End-to-end traceability', 'Relaciona fotografías, georreferenciación y listas de chequeo de forma automática con la obligación exacta.': 'Automatically link photos, geolocation, and checklists to the exact obligation.',
+      'Historial 100% auditable conservado': '100% auditable history preserved', 'El contexto original nunca se sobreescribe ni se pierde.': 'The original context is never overwritten or lost.', 'Exportación de reportes ejecutivos en un clic': 'One-click executive report export',
+      'Genera el historial completo de cada servicio para auditorías, revisiones contractuales y acuerdos de nivel de servicio (SLA).': 'Generate the complete history of every service for audits, contract reviews, and service-level agreements (SLAs).',
+      'Planes y Precios': 'Plans and Pricing', 'Planes que crecen con tu operación.': 'Plans that grow with your operation.', 'Plan Operación': 'Operations Plan', 'Para equipos en consolidación': 'For growing teams', 'Para equipos de hasta 10 operarios': 'For teams of up to 10 operators',
+      'Incluye:': 'Includes:', 'Gestión integral de servicios': 'End-to-end service management', 'Obligaciones y asignaciones por sede': 'Obligations and assignments by site', 'Registro móvil de ejecución': 'Mobile execution records', 'Evidencias fotográficas geolocalizadas': 'Geolocated photographic evidence', 'Seguimiento de cumplimiento básico': 'Basic compliance tracking', 'Reportes estándar en PDF': 'Standard PDF reports',
+      'Plan Operación Plus': 'Operations Plus Plan', 'Para empresas multisede y contratistas medianos': 'For multi-site companies and mid-sized contractors', 'Para operaciones con más de 10 operarios': 'For operations with more than 10 operators', 'Todo lo de Operación, más:': 'Everything in Operations, plus:', 'Mayor capacidad de usuarios y cuentas': 'More users and accounts', 'Gestión de múltiples operaciones y clientes': 'Multiple operations and clients management', 'Seguimiento avanzado de desviaciones y SLAs': 'Advanced deviation and SLA tracking', 'Reportes ampliados y analítica de desempeño': 'Expanded reports and performance analytics', 'Soporte técnico prioritario y onboarding guiado': 'Priority support and guided onboarding', 'Recomendado para escalamiento': 'Recommended for scaling',
+      'Solicitar demo': 'Request a demo', 'Hablar con Opervia': 'Talk to Opervia', '¿Tu operación tiene necesidades específicas o mayor volumen?': 'Does your operation have specific needs or higher volume?', 'Conversemos para un plan a medida': 'Let us discuss a tailored plan',
+      'Da el siguiente paso': 'Take the next step', 'Convierte tu operación en evidencia irrefutable de cumplimiento.': 'Turn your operation into irrefutable evidence of compliance.', 'Descubre cómo Service Compliance puede ayudarte a centralizar, supervisar y explicar cada servicio frente a tus clientes con total tranquilidad.': 'Discover how Service Compliance can help you centralize, supervise, and explain every service to your clients with complete peace of mind.', 'Solicitar una demo personalizada': 'Request a personalized demo', 'Contactar con Opervia': 'Contact Opervia', 'Demostración de 20 minutos adaptada al tipo de servicio de tu empresa.': 'A 20-minute demonstration tailored to your type of service.',
+      'Producto': 'Product', 'Funcionalidades de campo': 'Field functionality', 'Panel de supervisores': 'Supervisor dashboard', 'Empresa': 'Company', 'Contacto': 'Contact', 'Casos de uso': 'Use cases', 'Blog operativo': 'Operations blog', 'Soporte & Acceso': 'Support & Access', 'Centro de ayuda': 'Help center', 'Iniciar sesión en Opervia': 'Log in to Opervia', 'Estado del sistema': 'System status', 'Seguridad de la información': 'Information security', 'Términos del Servicio': 'Terms of Service', 'Política de Privacidad': 'Privacy Policy', 'Cumplimiento Legal': 'Legal compliance', 'Tecnología especializada para servicios que necesitan demostrar su cumplimiento diario con rigor, trazabilidad y simplicidad operativa.': 'Specialized technology for services that need to demonstrate daily compliance with rigor, traceability, and operational simplicity.', 'Lima, Perú • Cobertura en toda la región': 'Lima, Peru • Coverage across the region', '© 2026 Opervia. Todos los derechos reservados.': '© 2026 Opervia. All rights reserved.',
+      'Acción correctiva asignada: Reposición prioritaria de dispensadores': 'Corrective action assigned: Priority dispenser restocking', 'Acción rápida:': 'Quick action:', 'Adjunta únicamente la evidencia requerida: fotos, firmas y georreferencia.': 'Attach only the required evidence: photos, signatures, and geolocation.', 'Alerta automática generada para supervisor de zona': 'Automatic alert generated for area supervisor', 'Cada operario conoce qué debe ejecutar desde su turno sin intermediarios.': 'Every operator knows what to execute from their shift without intermediaries.',
+      'Corrección validada: Caso cerrado con nueva evidencia fotográfica': 'Correction validated: Case closed with new photographic evidence', 'Desviación detectada: Insumo sanitizante agotado en baño B': 'Deviation detected: Sanitizer depleted in bathroom B', 'Diseñado especialmente para la dinámica real de los servicios de limpieza y soporte de instalaciones.': 'Designed specifically for the real dynamics of cleaning and facilities support services.', 'Diseñado para transformar el orden operativo y la credibilidad frente a tus clientes.': 'Designed to transform operational order and credibility with your clients.',
+      'Ecosistema Integral': 'Integrated ecosystem', 'Ejecución registrada por operario M. López': 'Execution recorded by operator M. López', 'Evidencia adjuntada: 3 fotografías de verificación': 'Evidence attached: 3 verification photos', 'Firma supervisor': 'Supervisor signature', 'Foto & Cerrar': 'Photo & Close', 'Hasta 11:30 AM': 'Until 11:30 AM',
+      'Matriz de Cumplimiento Multisede': 'Multi-site Compliance Matrix', 'Mis actividades asignadas': 'My assigned activities', 'Obligación asignada: Limpieza integral Piso 3 Oficinas': 'Obligation assigned: Full cleaning, Floor 3 Offices', 'Planta Logística Sur': 'South Logistics Plant', 'Reasignar operario suplente →': 'Reassign substitute operator →', 'Registro con marcación GPS en rango válido': 'Record with GPS marking in valid range', 'Reportar impedimento': 'Report an obstacle', 'Revisión requerida': 'Review required', 'Sede Corporativa Miraflores': 'Miraflores Corporate Site',
+      'Service Compliance preserva el contexto original y registra la resolución de incidencias en tiempo real sin alterar la verdad del servicio.': 'Service Compliance preserves the original context and records incident resolution in real time without altering the truth of the service.', 'Siguiente tarea: Aspirado de alfombras Piso 5 (13:00 PM)': 'Next task: Vacuum Floor 5 carpets (1:00 PM)', 'Sin demoras': 'No delays', 'Supervisor R. Vargas envía dotación complementaria': 'Supervisor R. Vargas sends additional staff', 'Turno: 08:00 - 17:00': 'Shift: 08:00 AM - 05:00 PM', 'Plan de servicio habitual — Turno Regular': 'Standard service plan — Regular Shift',
+      '1 Alerta': '1 Alert', '1. Desinfección de Sanitarios B': '1. Disinfection of Bathroom B', '24 tareas programadas • Turno Matutino': '24 scheduled tasks • Morning Shift', '18 tareas programadas • Turno Matutino': '18 scheduled tasks • Morning Shift', 'Alertas automáticas ante servicios demorados': 'Automatic alerts for delayed services', 'Auditoría instantánea': 'Instant audit', 'Información centralizada': 'Centralized information', 'Potencia a los supervisores con visión integral y simplifica las tareas de los operarios en campo.': 'Empower supervisors with a complete view and simplify field operators’ tasks.', 'Relaciona cada obligación pactada con su ejecución real, evidencia multimedia y validación de supervisor para respaldar cobros y auditorías.': 'Link every agreed obligation to its actual execution, multimedia evidence, and supervisor validation to support billing and audits.', 'Empieza con la capacidad que tu equipo necesita hoy y escala sin fricciones.': 'Start with the capacity your team needs today and scale without friction.', 'Estructura formal': 'Formal structure', '✓ Historial conservado': '✓ History preserved', 'Historial conservado': 'History preserved', 'CUMPLIMIENTO ✓': 'COMPLIANCE ✓', 'Metadatos de captura y hora preservados': 'Capture metadata and timestamp preserved', 'Reduce la dependencia de mensajes de chat dispersos, correos perdidos y formatos impresos que nadie puede consultar cuando surge un reclamo formal.': 'Reduce dependence on scattered chat messages, lost emails, and printed forms no one can consult when a formal complaint arises.', 'Reposición de jabón': 'Soap restocking', 'Recojo de residuos': 'Waste collection', 'Lavado de lavamanos': 'Sink cleaning', 'Todo el ciclo del servicio, conectado.': 'The entire service cycle, connected.', 'Ver caso en vivo en la demo': 'See a live case in the demo', 'Filtrar: Hoy ▾': 'Filter: Today ▾', 'Filtrar: Semana ▾': 'Filter: Week ▾', 'Filtrar: Mes ▾': 'Filter: Month ▾'
+    };
+    const sourceTextNodes = [];
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    let currentTextNode;
+    while (currentTextNode = walker.nextNode()) {
+      if (currentTextNode.parentElement.closest('script, style, #languageToggle')) continue;
+      sourceTextNodes.push([currentTextNode, currentTextNode.textContent]);
+    }
     const setLanguage = (language) => {
-      const copy = i18n[language];
-      languageNodes.forEach(([selector, key]) => {
-        const node = document.querySelector(selector);
-        if (!node) return;
-        if (preserveChildren.has(key)) {
-          const textNode = [...node.childNodes].reverse().find(child => child.nodeType === Node.TEXT_NODE && child.textContent.trim());
-          if (textNode) textNode.textContent = `\n  ${copy[key]}\n  `;
-        } else {
-          node.innerHTML = copy[key];
+      sourceTextNodes.forEach(([node, originalText]) => {
+        const originalCopy = normalizeCopy(originalText);
+        const translatedCopy = language === 'en' ? (englishCopy[originalCopy] || originalCopy) : originalCopy;
+        if (translatedCopy !== originalCopy) {
+          node.textContent = originalText.replace(originalCopy, translatedCopy);
+        } else if (language === 'es') {
+          node.textContent = originalText;
         }
       });
       document.documentElement.lang = language;
       languageToggle.textContent = language === 'es' ? 'EN' : 'ES';
       languageToggle.setAttribute('aria-label', language === 'es' ? 'Cambiar a inglés' : 'Cambiar a español');
+      const filterButton = document.getElementById('filterBtn');
+      if (filterButton && filterButton.dataset.filterIndex) {
+        const filterLabels = {
+          es: ['Filtrar: Hoy ▾', 'Filtrar: Semana ▾', 'Filtrar: Mes ▾'],
+          en: ['Filter: Today ▾', 'Filter: Week ▾', 'Filter: Month ▾']
+        };
+        filterButton.textContent = filterLabels[language][Number(filterButton.dataset.filterIndex)];
+      }
       localStorage.setItem('opervia-language', language);
     };
     setLanguage(defaultLanguage);
@@ -1430,7 +1470,9 @@
           item.classList.remove('opacity-60');
         } else {
           // for the signature bullet item
-          alert('Firma de supervisor registrada con marca de tiempo.');
+          alert(document.documentElement.lang === 'en'
+            ? 'Supervisor signature recorded with timestamp.'
+            : 'Firma de supervisor registrada con marca de tiempo.');
         }
       });
     });
@@ -1438,11 +1480,16 @@
     // 5. Supervisor filter simulation button
     const filterBtn = document.getElementById('filterBtn');
     if (filterBtn) {
-      const filters = ['Filtrar: Hoy ▾', 'Filtrar: Semana ▾', 'Filtrar: Mes ▾'];
       let fIndex = 0;
+      filterBtn.dataset.filterIndex = '0';
       filterBtn.addEventListener('click', () => {
-        fIndex = (fIndex + 1) % filters.length;
-        filterBtn.textContent = filters[fIndex];
+        fIndex = (fIndex + 1) % 3;
+        filterBtn.dataset.filterIndex = String(fIndex);
+        const filters = {
+          es: ['Filtrar: Hoy ▾', 'Filtrar: Semana ▾', 'Filtrar: Mes ▾'],
+          en: ['Filter: Today ▾', 'Filter: Week ▾', 'Filter: Month ▾']
+        };
+        filterBtn.textContent = filters[document.documentElement.lang][fIndex];
         filterBtn.classList.add('scale-105');
         setTimeout(() => filterBtn.classList.remove('scale-105'), 200);
       });

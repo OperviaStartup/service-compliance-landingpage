@@ -1,33 +1,33 @@
 # Opervia — Service Compliance Landing Page
 
-Landing page responsive para Opervia, una plataforma B2B para planificar, ejecutar y demostrar el cumplimiento de servicios tercerizados.
+Landing page estática y responsive para presentar Service Compliance, la propuesta de Opervia para mantener trazabilidad entre el plan de servicio, las obligaciones, la ejecución, la evidencia y las acciones correctivas en servicios de limpieza tercerizada B2B.
 
-## Características
+## Contenido
 
-- Diseño responsive para desktop y mobile.
-- Landing estática en un único archivo HTML.
-- Identidad visual Opervia con Tailwind CSS vía CDN.
-- Animaciones e interacciones implementadas con JavaScript vanilla.
-- Internacionalización ES/EN con selector de idioma.
-- Persistencia del idioma seleccionado mediante `localStorage`.
-- Despliegue automático en GitHub Pages.
+- Propuesta de valor y demostración ilustrativa del producto.
+- Flujo de trazabilidad de cinco etapas.
+- Experiencias diferenciadas para supervisores y operarios.
+- Alcance y limitaciones comunicados de forma transparente.
+- Secciones de Opervia, equipo, preguntas frecuentes y llamada a la acción.
+- Internacionalización ES/EN con preferencia persistida en `localStorage`.
+- Navegación responsive, accesible y compatible con movimiento reducido.
 
 ## Estructura
 
 ```text
 .
+├── assets/
+│   ├── opervia-logo.png
+│   └── team/
 ├── index.html
-├── README.md
-└── .github/
-    └── workflows/
-        └── pages.yml
+├── styles.css
+├── script.js
+└── .github/workflows/pages.yml
 ```
 
 ## Ejecutar localmente
 
-No requiere instalación de dependencias ni proceso de compilación.
-
-Puedes abrir `index.html` directamente en el navegador o iniciar un servidor estático desde la carpeta del proyecto:
+No requiere dependencias ni proceso de compilación. Inicia un servidor estático desde la raíz:
 
 ```bash
 python -m http.server 8000
@@ -35,27 +35,12 @@ python -m http.server 8000
 
 Luego visita [http://localhost:8000](http://localhost:8000).
 
-## Internacionalización
+## Despliegue
 
-El idioma inicial es español. Usa el botón `EN` o `ES` del encabezado para cambiar el idioma. La preferencia se conserva en el navegador y se aplica automáticamente en las siguientes visitas.
+El workflow de GitHub Pages publica el contenido estático al hacer `push` a `main` o mediante una ejecución manual desde GitHub Actions.
 
-Las traducciones están definidas en el bloque de internacionalización de `index.html`, dentro del script principal.
+## Fuentes de contenido
 
-## Despliegue en GitHub Pages
+La propuesta, el alcance, los segmentos, las capacidades, las limitaciones y los perfiles del equipo provienen de los capítulos 1 y 2 del informe de Service Compliance. Los enlaces técnicos se tomaron de los capítulos 3 y 4 reformulados.
 
-El workflow ubicado en `.github/workflows/pages.yml` publica automáticamente el sitio cuando se hace `push` a la rama `main`. También puede ejecutarse manualmente desde la pestaña **Actions** de GitHub.
-
-Para activar GitHub Pages:
-
-1. Sube el proyecto a un repositorio de GitHub.
-2. Ve a **Settings → Pages**.
-3. En **Build and deployment**, selecciona **GitHub Actions**.
-4. Haz push a `main` o ejecuta el workflow manualmente.
-
-## Tecnologías
-
-- HTML5 semántico
-- Tailwind CSS vía CDN
-- JavaScript vanilla
-- GitHub Pages
-
+Los datos que aparecen en los mockups de interfaz son ejemplos ilustrativos y no representan métricas reales, clientes ni resultados comerciales.
